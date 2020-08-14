@@ -1,0 +1,101 @@
+server:
+  tomcat:
+    max-threads: 1000
+    min-spare-threads: 64
+    max-connections: 2000
+  port: 8601
+
+#actuator暴露接口使用的端口，为了和api接口使用的端口进行分离
+#actuator暴露接口的前缀
+management:
+  server:
+    port: 8801
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: ALWAYS
+
+#可在线查看日志
+mybatis:
+  mapper-locations: 'classpath*:**/*Mapper.xml'
+  type-aliases-package: 'com.so.mapper'
+
+#pagehelper.
+pagehelper:
+  autoDialect: true
+  closeConn: true
+  offset-as-page-num: false
+
+feign:
+  hystrix:
+    enabled: true
+  client:
+    config:
+      default:
+        connectTimeout: 20000
+        readTimeout: 20000
+        loggerLevel: basic
+  httpclient:
+    enabled: true
+
+ribbon:
+  MaxAutoRetries: 1
+  MaxAutoRetriesNextServer: 0
+  OkToRetryOnAllOperations: true
+  ConnectTimeout: 20000
+  ReadTimeout: 20000
+
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          # To set thread isolation to SEMAPHORE
+          #strategy: SEMAPHORE
+          thread:
+            timeoutInMilliseconds: 20000
+
+logging:
+  level:
+    com:
+      so: INFO
+    org:
+      springframework:
+        web: debug
+  path: log
+  file: springsecurity-oauth2.log
+  pattern:
+    file: '%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger- %msg%n'
+    console: '%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger- %msg%n'
+
+jwt:
+  sign:
+    key: 123456
+    jks:
+      path: D:\\Program Files\\Java\\jdk1.8.0_152\\bin\\test_key_20181214.jks
+      password: 123456
+      alias: test_key_20181214
+    type: 1
+
+
+
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  security:
+    basic:
+      enabled: false
+    user:
+      name: admin
+      password: abc123
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    maxActive: 50
+    minEvictableIdleTimeMillis: 50000
+    initialSize: 1
+    url: 'jdbc:mysql://IP:3306/oauth2?useLegacyDatetimeCode=false&serverTimezone=Asia/Hong_Kong&useSSL=false'
+    username: 'uu'
+    password: 'pp'
