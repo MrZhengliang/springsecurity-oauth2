@@ -61,10 +61,9 @@ hystrix:
 logging:
   level:
     com:
-      so: INFO
+      so: debug
     org:
-      springframework:
-        web: debug
+      springframework: debug
   path: log
   file: springsecurity-oauth2.log
   pattern:
@@ -81,6 +80,14 @@ jwt:
     type: 1
 
 
+security:
+  oauth2:
+    client:
+      access-token-uri: http://localhost:8601/oauth/token
+      user-authorization-uri: http://localhost:8601/oauth/authorize
+    resource:
+      id: springsecurity-oauth2
+      prefer-token-info: false
 
 spring:
   main:
