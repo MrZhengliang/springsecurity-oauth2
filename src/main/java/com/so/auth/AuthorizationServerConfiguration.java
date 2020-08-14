@@ -16,10 +16,8 @@ import org.springframework.security.oauth2.provider.ClientDetailsService;
 import org.springframework.security.oauth2.provider.client.JdbcClientDetailsService;
 import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import org.springframework.security.oauth2.provider.token.TokenStore;
-import org.springframework.security.oauth2.provider.token.store.InMemoryTokenStore;
 import org.springframework.security.oauth2.provider.token.store.JdbcTokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
-import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
 
 import javax.sql.DataSource;
 
@@ -29,9 +27,6 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
 
 	@Autowired
 	private DataSource dataSource;
-
-	@Autowired
-	private RedisConnectionFactory redisConnectionFactory;
 
 	@Autowired
 	private JwtAccessTokenConverter jwtAccessTokenConverter;
@@ -56,14 +51,7 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
 		endpoints.accessTokenConverter(jwtAccessTokenConverter);
 //		endpoints.exceptionTranslator(new MyWebResponseExceptionTranslator());
 //		endpoints.authenticationManager(authenticationManager)
-//				.userDetailsService(userDetailsService);
-		// 自定义token生成方式
-//        TokenEnhancerChain tokenEnhancerChain = new TokenEnhancerChain();
-//        tokenEnhancerChain.setTokenEnhancers(Arrays.asList(tokenEnhancer(), accessTokenConverter()));
-//	   endpoints.tokenStore(tokenStore())
-//       .tokenEnhancer(tokenEnhancerChain)
-//       .authenticationManager(authenticationManager);
-	
+
 	}
 	
 	@Override
@@ -76,30 +64,21 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
 	public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
 		//配置客户端详情，与持久化信息联用
 		clients.jdbc(dataSource);
-//		clients.inMemory();
 	}
 
 	/**
 	 * redis token 配置
 	 */
 	//@Bean
-	public TokenStore redisTokenStore() {
-		return new RedisTokenStore(redisConnectionFactory);
-	}
+//	public TokenStore redisTokenStore() {
+//		return new RedisTokenStore(redisConnectionFactory);
+//	}
 
 	@Bean // 声明 ClientDetails实现
 	public ClientDetailsService clientDetails() {
 		return new JdbcClientDetailsService(dataSource);
 	}
 
-	/*@Bean
-	@Primary
-	public DefaultTokenServices tokenServices() {
-		DefaultTokenServices tokenServices = new DefaultTokenServices();
-		tokenServices.setTokenStore(tokenStore());
-		return tokenServices;
-	}*/
-	
 	@Bean
 	public TokenStore tokenStore() {
 //	    return new InMemoryTokenStore();

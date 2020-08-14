@@ -35,8 +35,6 @@ import javax.servlet.http.HttpServletRequest;
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     private Logger logger = LoggerFactory.getLogger(SecurityConfiguration.class);
-    @Autowired
-    private HttpServletRequest request;
 
     private static final String NAME_AND_SALT ="123";
 
@@ -85,6 +83,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         web.ignoring().antMatchers("/actuator/**");
         web.ignoring().antMatchers("/logout");
         web.ignoring().antMatchers("/verify");
+        web.ignoring().antMatchers("/jwt/check");
     }
 
     @Override
