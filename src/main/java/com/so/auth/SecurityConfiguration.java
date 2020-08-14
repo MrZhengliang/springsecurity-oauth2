@@ -106,6 +106,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         UserDetailsService userDetailsService = new UserDetailsService(){
             @Override
             public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
+                // 固定密码，后续这块可以改为自有项目的user信息模块
                 String password = "123456";
                 password = MD5Encrypt.encrypt(password + NAME_AND_SALT);
 //                password = password + userName + NAME_AND_SALT;
