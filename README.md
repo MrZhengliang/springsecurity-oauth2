@@ -10,6 +10,5 @@ springsecurity-oauth2集成，jwt生成token
 ![image](解析jwt生成的token.png)
 ## sql脚本
 ````SQL
-oauth.sql
+springsecurity-oauth2\src\main\resources\oauth2.sql
 ````
-
