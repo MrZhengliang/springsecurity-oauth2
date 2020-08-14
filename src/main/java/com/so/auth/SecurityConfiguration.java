@@ -64,10 +64,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 if ("no_pass".equals(rawPassword)) {
                     return true;
                 }
-                if (encodedPassword != null && encodedPassword.length() > 32) {
+                if (encodedPassword != null) {
                     String passwordEn = encodedPassword.substring(0, 32);
 //                    String nameAndsalt = encodedPassword.substring(32);
-                    return MD5Encrypt.encrypt(NAME_AND_SALT + rawPassword).equals(passwordEn);
+                    return MD5Encrypt.encrypt(rawPassword + NAME_AND_SALT).equals(passwordEn);
                 }
                 return false;
             }
@@ -108,6 +108,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             @Override
             public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
                 String password = "123456";
+                password = MD5Encrypt.encrypt(password + NAME_AND_SALT);
 //                password = password + userName + NAME_AND_SALT;
                 UserDetails userDetails = new User(userName, password, AuthorityUtils.createAuthorityList(new String[]{"ROLE_ANONYMOUS"}));
 
