@@ -83,13 +83,16 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         web.ignoring().antMatchers("/actuator/**");
         web.ignoring().antMatchers("/logout");
         web.ignoring().antMatchers("/verify");
-        web.ignoring().antMatchers("/jwt/check");
+//        web.ignoring().antMatchers("/jwt/check");
+
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         //basic 登录方式
-        http.authorizeRequests().antMatchers(HttpMethod.OPTIONS).permitAll().anyRequest().authenticated()
+        http.authorizeRequests().antMatchers(HttpMethod.OPTIONS).permitAll()
+                .antMatchers(HttpMethod.GET, "/jwt/check").hasRole("ANONYMOUS")
+                .anyRequest().authenticated()
                 .and()
                 .httpBasic().disable().csrf().disable();
     }
