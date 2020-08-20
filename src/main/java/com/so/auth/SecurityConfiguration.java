@@ -26,6 +26,7 @@ import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import javax.servlet.http.HttpServletRequest;
 
 /**
+ * 安全认证
  * @author fu
  */
 @Slf4j
@@ -90,11 +91,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         //basic 登录方式
-        http.authorizeRequests().antMatchers(HttpMethod.OPTIONS).permitAll()
+        http.authorizeRequests()
+                .antMatchers(HttpMethod.OPTIONS).permitAll()
+                .antMatchers("/oauth/authorize").permitAll()
                 .antMatchers(HttpMethod.GET, "/jwt/check").hasRole("ANONYMOUS")
                 .anyRequest().authenticated()
-                .and()
-                .httpBasic().disable().csrf().disable();
+                .and().httpBasic().disable().csrf().disable();
     }
 
     @Override
